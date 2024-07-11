@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+import * as defaultTheme from 'tailwindcss/defaultTheme';
+
 export default {
   content: [
     "./resources/**/*.blade.php",
@@ -6,7 +9,11 @@ export default {
     "./resources/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sans': ['"League Spartan"', ...defaultTheme.fontFamily.sans]
+      }
+    },
   },
   plugins: [],
 }
