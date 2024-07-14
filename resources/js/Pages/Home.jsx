@@ -35,7 +35,7 @@ function Home() {
                 </button>
                 <Link
                     className={`${fullScreen ? "block" : "hidden"} bg-sky-600 px-5 py-2 rounded-lg w-fit text-white mx-auto my-3`}
-                    href="/take-picture"
+                    href="/start"
                 >
                     Start App
                 </Link>

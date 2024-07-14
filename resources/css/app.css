@@ -8,3 +8,17 @@
         src: url('/fonts/LeagueSpartan-VariableFont_wght.ttf');
     }
 }
+
+@layer utilities {
+    .timer-top-center {
+        top: calc(50% - 90px);
+    }
+
+    .timer-left-center {
+        left: calc(50% - 90px);
+    }
+
+    .camera-btn-left-center {
+        left: calc(50% - 72px);
+    }
+}
