@@ -1,24 +1,29 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
-Route::get('/', function () {
-    return inertia('Home');
-});
+Route::inertia('/', 'Home');
 
 Route::inertia('/start', 'Start');
 Route::inertia('/camera', 'CameraPage');
+Route::post('/store-image', [UserController::class, 'storeImage']);
+Route::post('/editor', [UserController::class, 'editor']);
+Route::get('/select-option', [UserController::class, 'EditorHandling']);
+Route::post('/status-payment', [UserController::class, 'statusPayment']);
+Route::get('/get-output', [UserController::class, 'getOutput']);
+Route::get('/thank-you', [UserController::class, 'thankYou']);
 
-Route::post('/store-image', function (Request $request) {
-    // dd($request->input('img'));
-    foreach ($request->input('img') as $image) {
-        $pict = explode(',', $image)[1];
+Route::post('/get-qris', [UserController::class, 'getQris']);
+Route::post('/check-status-qris', [UserController::class, 'checkStatusQris']);
+Route::post('/cancel-payment', [UserController::class, 'cancelPayment']);
 
-        Storage::put('coba/'.Str::random(40).'.png', base64_decode($pict));
-    }
+Route::get('/admin', [AdminController::class, 'adminLoginPage']);
+Route::get('/admin/registration', [AdminController::class, 'adminRegisterPage']);
+Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboardPage']);
+Route::get('/admin/add-frame', [AdminController::class, 'AdminAddFramePage']);
 
-    return redirect()->back();
-});
+Route::post('/admin-login-handler', [AdminController::class, 'adminLoginHandler']);
+Route::post('/admin-regis-handler', [AdminController::class,'adminRegisterHandling']);
+Route::post('add-frame-handler', [AdminController::class, 'AdminAddFrameHandler']);

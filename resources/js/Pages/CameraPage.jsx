@@ -20,11 +20,11 @@ function CameraPage() {
         ["16:9", 1.77]
     ];
 
-    const [ ratioValue, setRatioValue ] = useState(ratioOption[3]);
+    const [ ratioValue, setRatioValue ] = useState(ratioOption[2]);
 
     useEffect(() => {
         let timer = setTimeout(() => {
-            setShowText(false);
+            setShowText("camera");
         }, 3300);
 
         return () => clearTimeout(timer);
@@ -69,16 +69,14 @@ function CameraPage() {
     }
 
     function goNextStep() {
-        router.post("/store-image", { img: pictures });
-        setPictures([]);
-        setNextStep(false);
-        setPreparation(true);
+        setShowText(false);
+        setTimeout(() => router.post("/store-image", { img: pictures }), 1000);
     }
 
     return (
         <div className="h-screen bg-[url('/assets/start-app-bg.png')] flex justify-center items-center overflow-hidden">
             <AnimatePresence>
-                {showText ?
+                {showText === true ?
                     <motion.h1
                         key={'header1'}
                         className="text-white text-center text-8xl font-bold"
@@ -87,11 +85,12 @@ function CameraPage() {
                         exit={{ scale: 0.2, opacity: 0, transition: { repeat: 0, duration: 0.7 } }}
                     >
                         Take Your Picture !
-                    </motion.h1> :
+                    </motion.h1> : (showText === "camera" &&
                     <motion.div
                         className="justify-center items-center w-fit h-full relative"
                         initial={{ opacity: 0, scale: 0.2, display: "none" }}
                         animate={{ opacity:1, scale: 1, display: "flex", transition: { delay: 1, repeat: 0, duration: 1 } }}
+                        exit={{ x: -window.innerWidth, transition: { ease: "backInOut", repeat: 0, duration: 1 } }}
                     >
                         <Webcam
                             videoConstraints={{
@@ -106,7 +105,7 @@ function CameraPage() {
                         >
                             {() => <CameraUI preparation={preparation} setPictures={setPictures} getPicture={getPicture} cameraFunction={cameraFunction} pictures={pictures} countDown={countDown} setCountDown={setCountDown} shutter={shutter} ratioOption={ratioOption} ratioValue={ratioValue} setRatioValue={setRatioValue} goNextStep={goNextStep} nextStep={nextStep} />}
                         </Webcam>
-                    </motion.div>
+                    </motion.div>)
                 }
             </AnimatePresence>
         </div>

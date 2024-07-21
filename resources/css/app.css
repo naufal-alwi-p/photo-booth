@@ -21,4 +21,16 @@
     .camera-btn-left-center {
         left: calc(50% - 72px);
     }
+
+    .checklist-top-center {
+        top: calc(50% - 48px);
+    }
+
+    .checklist-left-center {
+        left: calc(50% - 48px);
+    }
+
+    .reset-right-fixed-position {
+        right: calc(35% + 1.25rem);
+    }
 }

@@ -6,6 +6,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.7",
         "@vitejs/plugin-react": "^4.3.1",
         "autoprefixer": "^10.4.19",
         "axios": "^1.6.4",
@@ -17,9 +18,14 @@
     "dependencies": {
         "@inertiajs/react": "^1.2.0",
         "framer-motion": "^11.3.2",
+        "html-react-parser": "^5.1.12",
+        "konva": "^9.3.13",
         "react": "^18.3.1",
         "react-countdown-circle-timer": "^3.2.1",
         "react-dom": "^18.3.1",
-        "react-webcam": "^7.2.0"
+        "react-konva": "^18.2.10",
+        "react-timer-hook": "^3.0.7",
+        "react-webcam": "^7.2.0",
+        "use-image": "^1.1.1"
     }
 }
