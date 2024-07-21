@@ -13,12 +13,23 @@ function CameraPage() {
     const [ preparation, setPreparation ] = useState(true);
     const camera = useRef(null);
 
-    const ratioOption = [
-        ["3:2", 1.5],
-        ["4:3", 1.33],
-        ["5:4", 1.25],
-        ["16:9", 1.77]
-    ];
+    let ratioOption;
+
+    if (window.innerHeight > window.innerWidth) {
+        ratioOption = [
+            ["3:2", 0.66],
+            ["4:3", 0.75],
+            ["5:4", 0.8],
+            ["16:9", 0.5625]
+        ];
+    } else {
+        ratioOption = [
+            ["3:2", 1.5],
+            ["4:3", 1.33],
+            ["5:4", 1.25],
+            ["16:9", 1.77]
+        ];
+    }
 
     const [ ratioValue, setRatioValue ] = useState(ratioOption[2]);
 

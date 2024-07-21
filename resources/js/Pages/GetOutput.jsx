@@ -4,7 +4,7 @@ import { useState } from 'react';
 import CountDownTimer from "../../components/CountDownTimer";
 import { router } from '@inertiajs/react';
 
-function GetOutput({ qr_code, print = true }) {
+function GetOutput({ qr_code, print }) {
     const [ display, setDisplay ] = useState(false);
     console.log(qr_code);
 
@@ -16,7 +16,7 @@ function GetOutput({ qr_code, print = true }) {
     }
 
     return (
-        <div className="h-screen bg-[url('/assets/select-bg.png')] flex items-center justify-evenly overflow-hidden relative">
+        <div className="h-screen bg-[url('/assets/select-bg.png')] flex portrait:flex-col items-center justify-evenly overflow-hidden relative">
             <AnimatePresence>
                 {!display &&
                     <motion.div

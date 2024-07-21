@@ -5,7 +5,7 @@ import { useState } from "react";
 function Start() {
     const [ isVisible, setIsVisible ] = useState(true);
     return (
-        <div className="h-screen bg-[url('/assets/bg-start.png')] flex justify-center items-center overflow-hidden">
+        <div className="h-screen bg-[url('/assets/bg-start.png')] portrait:bg-cover flex justify-center items-center overflow-hidden">
 
             <div
                 className="block w-fit"

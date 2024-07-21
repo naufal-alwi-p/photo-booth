@@ -32,7 +32,7 @@ function SelectorImage({ images }) {
                 {showImage === "image" &&
                     <motion.div
                         key={"image list"}
-                        className="grid grid-cols-3 gap-8 mx-8"
+                        className="grid landscape:grid-cols-3 portrait:grid-cols-2 gap-8 mx-8"
                         initial={{ x: -window.innerWidth }}
                         animate={{ x: 0, transition: { ease: "backInOut", repeat: 0, duration: 1 } }}
                         exit={{ opacity: 0, scale: 0.1, transition: { repeat: 0, duration: 1 } }}

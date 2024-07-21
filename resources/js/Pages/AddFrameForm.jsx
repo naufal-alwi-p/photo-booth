@@ -108,8 +108,8 @@ function AddFrameForm() {
     }
 
     return (
-        <div className="h-screen bg-[#202020] flex items-center">
-            <div className="w-[65%] h-full bg-slate-200 py-6 relative overflow-x-auto overflow-y-auto">
+        <div className="h-screen bg-[#202020] flex portrait:flex-col items-center">
+            <div className="landscape:w-[65%] landscape:h-full portrait:w-full portrait:h-[65%] bg-slate-200 py-6 relative overflow-x-auto overflow-y-auto">
                 {image.src &&
                     <>
                         <Stage
@@ -142,7 +142,7 @@ function AddFrameForm() {
                                 })}
                             </Layer>
                         </Stage>
-                        <div className="fixed bottom-5 left-5 bg-slate-300 py-1.5 px-5 rounded-2xl">
+                        <div className="fixed landscape:bottom-5 left-5 portrait:top-5 bg-slate-300 py-1.5 px-5 rounded-2xl">
                             <span>Zoom:</span>
                             <input type="range" className="m-0 align-middle me-3 ms-3" min={0.1} max={1} step={0.05} value={zoom} onChange={(e) => setZoom(e.target.value)} />
                             <span>{zoom * 100}%</span>
@@ -150,7 +150,7 @@ function AddFrameForm() {
                     </>
                 }
             </div>
-            <div id="menu" className="w-[35%] h-full bg-slate-400 relative">
+            <div id="menu" className="landscape:w-[65%] landscape:h-full portrait:w-full portrait:h-[65%] bg-slate-400 relative">
                 <h1 className="text-3xl font-bold text-center my-5">New Frame</h1>
 
                 <form className="mx-4" onSubmit={handleSubmit}>

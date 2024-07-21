@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Frame;
 use GuzzleHttp\Client;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
@@ -46,24 +47,24 @@ class UserController extends Controller
         ]);
     }
 
-    public function EditorHandling(Request $request) {
-        // $pict = explode(',', $request->input('image'))[1];
+    public function editorHandling(Request $request) {
+        $pict = explode(',', $request->input('image'))[1];
 
-        // $filename = Str::random(40);
+        $filename = Str::random(40);
 
-        // if (Storage::put("public/result/$filename.png", base64_decode($pict))) {
+        if (Storage::put("public/result/$filename.png", base64_decode($pict))) {
             // return inertia('SelectOption', ['file' => $filename]);
 
-            // $file_path = Storage::path("/public/result/$filename.png");
+            $file_path = Storage::path("/public/result/$filename.png");
 
-            // $image = new \Imagick($file_path);
+            $image = new \Imagick($file_path);
 
-            // $image->setImageFormat("pdf");
+            $image->setImageFormat("pdf");
 
-            // $image->writeImage(Storage::path("/public/result/$filename.pdf"));
+            $image->writeImage(Storage::path("/public/result/$filename.pdf"));
 
             return inertia('SelectOption', [
-                'image' => "example.png",
+                'image' => "$filename.png",
                 "csrf" => csrf_token(),
                 "price" => [
                     [
@@ -78,9 +79,9 @@ class UserController extends Controller
                     ]
                 ]
             ]);
-        // } else {
-        //     abort(404);
-        // }
+        } else {
+            abort(404);
+        }
     }
 
     public function getQris(Request $request) {
@@ -145,13 +146,24 @@ class UserController extends Controller
     }
 
     public function getOutput(Request $request) {
-        $qr_code = QrCode::size(350)->margin(1)->generate('https://google.com')->toHtml();
+        $file = new File((Storage::path('/public/result/' . $request->input('image'))));
+        $dropbox_path = Storage::disk('dropbox')->put("/coba", $file);
+        $dropbox_url = Storage::disk('dropbox')->url($dropbox_path);
+
+        $qr_code = QrCode::size(350)->margin(1)->generate($dropbox_url)->toHtml();
         $array = explode("\n", $qr_code);
         array_shift($array);
         $qr_code = implode("", $array);
 
+        $print = false;
+
+        if ($request->input("option")["type"] === "print") {
+            $print = true;
+        }
+
         return inertia('GetOutput', [
-            'qr_code' => $qr_code
+            'qr_code' => $qr_code,
+            'print' => $print
         ]);
     }
 

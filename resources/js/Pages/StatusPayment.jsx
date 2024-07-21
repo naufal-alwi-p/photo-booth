@@ -12,7 +12,7 @@ function StatusPayment({ transaction_status, image = null, option = null }) {
 
         let go = setTimeout(() => {
             if (transaction_status === "capture" || transaction_status === "settlement") {
-                router.get("/get-output", { image: image, option: option });
+                router.post("/get-output", { image: image, option: option });
             } else {
                 router.get("/start");
             }
@@ -36,7 +36,7 @@ function StatusPayment({ transaction_status, image = null, option = null }) {
                         className="w-full h-fit"
                     >
                         {transaction_status === "capture" || transaction_status === "settlement" ?
-                            <p className="text-white font-bold text-center text-5xl">Payment Successful</p> :
+                            <p className="text-white font-bold text-center text-5xl">Payment Successful<br/>Please Wait...</p> :
                             <>
                                 <img src="/assets/failed-icon.png" alt="Failed Icon" className="w-1/3 mx-auto" />
                                 <p className="text-white font-bold text-center text-5xl">Payment Failed</p>

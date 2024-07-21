@@ -10,9 +10,9 @@ Route::inertia('/start', 'Start');
 Route::inertia('/camera', 'CameraPage');
 Route::post('/store-image', [UserController::class, 'storeImage']);
 Route::post('/editor', [UserController::class, 'editor']);
-Route::get('/select-option', [UserController::class, 'EditorHandling']);
+Route::post('/select-option', [UserController::class, 'editorHandling']);
 Route::post('/status-payment', [UserController::class, 'statusPayment']);
-Route::get('/get-output', [UserController::class, 'getOutput']);
+Route::post('/get-output', [UserController::class, 'getOutput']);
 Route::get('/thank-you', [UserController::class, 'thankYou']);
 
 Route::post('/get-qris', [UserController::class, 'getQris']);

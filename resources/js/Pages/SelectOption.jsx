@@ -168,11 +168,11 @@ function SelectOption ({ image, csrf, price }) {
                         initial={{ opacity: 0, scale: 0.1 }}
                         animate={{ opacity: 1, scale: 1, transition: { repeat: 0, delay: 0.3, duration: 1 } }}
                         exit={{ opacity: 0, scale: 0.1, transition: { repeat: 0, duration: 1 } }}
-                        className="flex justify-center h-full items-center absolute w-full"
+                        className="flex justify-center portrait:flex-col portrait:gap-y-14 h-full items-center absolute w-full"
                     >
                         <button
                             type="button"
-                            className="text-6xl font-bold px-5 py-3 rounded-2xl bg-[#F76505] hover:bg-orange-600 text-white w-1/3 mx-auto"
+                            className="text-6xl font-bold px-5 py-3 rounded-2xl bg-[#F76505] hover:bg-orange-600 text-white landscape:w-1/3 portrait:w-1/2 mx-auto"
                             value="0"
                             onClick={getQris}
                         >
@@ -181,7 +181,7 @@ function SelectOption ({ image, csrf, price }) {
 
                         <button
                             type="button"
-                            className="text-6xl font-bold px-5 py-3 rounded-2xl bg-[#F76505] hover:bg-orange-600 text-white w-1/3 mx-auto"
+                            className="text-6xl font-bold px-5 py-3 rounded-2xl bg-[#F76505] hover:bg-orange-600 text-white landscape:w-1/3 portrait:w-1/2 mx-auto"
                             value="1"
                             onClick={getQris}
                         >
@@ -207,7 +207,7 @@ function SelectOption ({ image, csrf, price }) {
                             exit={{ opacity: 0, scale: 0.1, transition: { repeat: 0, duration: 1 } }}
                             className="flex flex-col justify-center h-full w-full items-center relative"
                         >
-                            <img src={midtransResponse.actions[0].url} alt="QRIS Image" className="w-1/3" />
+                            <img src={midtransResponse.actions[0].url} alt="QRIS Image" className="landscape:w-1/3 portrait:w-1/2" />
                             <p className="bg-white font-bold px-3 py-3 rounded-lg text-3xl mt-7">{option.price_str}</p>
                             <p className="text-white text-5xl mt-7">
                                 Time Remaining <CountDownTimer expiryTimestamp={new Date(midtransResponse.expiry_time)} onExpire={onExpire} />
