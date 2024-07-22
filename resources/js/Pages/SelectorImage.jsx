@@ -17,7 +17,7 @@ function SelectorImage({ images }) {
     }, []);
 
     return (
-        <div className="h-screen bg-[#202020] flex flex-col gap-y-5 items-center overflow-hidden">
+        <div className="h-screen bg-[#202020] flex flex-col gap-y-5 items-center">
             <AnimatePresence>
                 {showImage !== "close" && <motion.h1
                     key={"title text"}
@@ -76,7 +76,7 @@ function SelectorImage({ images }) {
                     <button
                         key={"next button"}
                         type="button"
-                        className="absolute bottom-12 right-11 py-1.5 px-10 bg-sky-500 text- text-2xl rounded-3xl hover:bg-sky-600"
+                        className="fixed bottom-12 right-11 py-1.5 px-10 bg-sky-500 text- text-2xl rounded-3xl hover:bg-sky-600"
                         onClick={() => {
                             setShowImage("close");
                             setTimeout(() => router.post("/editor", { selectedImage: selectedImage }), 1000);

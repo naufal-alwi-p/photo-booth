@@ -132,11 +132,11 @@ function AddFrameForm() {
                                 {seePreview && Array(3).fill(1).map((value, index) => {
                                     if (data.orientation === "potrait") {
                                         return (
-                                            <LoadImage key={index} url={"/storage/example/5-4.png"} opacity={0.6} x={data.left_margin} y={data.top_margin + index * data.margin_between + index * image.height} width={image.width} height={image.height} />
+                                            <LoadImage key={index} url={"/example/5-4.png"} opacity={0.6} x={data.left_margin} y={data.top_margin + index * data.margin_between + index * image.height} width={image.width} height={image.height} />
                                         );
                                     } else {
                                         return (
-                                            <LoadImage key={index} url={"/storage/example/5-4.png"} opacity={0.6} x={data.left_margin + index * data.margin_between + index * image.width} y={data.top_margin} width={image.width} height={image.height} />
+                                            <LoadImage key={index} url={"/example/5-4.png"} opacity={0.6} x={data.left_margin + index * data.margin_between + index * image.width} y={data.top_margin} width={image.width} height={image.height} />
                                         );
                                     }
                                 })}
@@ -150,7 +150,7 @@ function AddFrameForm() {
                     </>
                 }
             </div>
-            <div id="menu" className="landscape:w-[65%] landscape:h-full portrait:w-full portrait:h-[65%] bg-slate-400 relative">
+            <div id="menu" className="landscape:w-[35%] landscape:h-full portrait:w-full portrait:h-[35%] bg-slate-400 relative">
                 <h1 className="text-3xl font-bold text-center my-5">New Frame</h1>
 
                 <form className="mx-4" onSubmit={handleSubmit}>
