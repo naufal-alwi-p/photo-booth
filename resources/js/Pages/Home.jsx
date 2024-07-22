@@ -10,19 +10,23 @@ function Home() {
         }
     };
 
+    const noMenu = (e) => e.preventDefault();
+
     useEffect(() => {
         document.documentElement.addEventListener('fullscreenchange', fullScreenHandler);
+        document.documentElement.addEventListener('contextmenu', noMenu);
     }, []);
 
     router.on('before', () => {
         document.documentElement.removeEventListener('fullscreenchange', fullScreenHandler);
-    })
+        document.documentElement.removeEventListener('contextmenu', noMenu);
+    });
 
     return (
         <div className="h-screen flex justify-center items-center bg-[url('/assets/start-app-bg.png')]">
             <div>
-                <img src="/assets/logo-transparant.png" alt="Main Icon" className="w-1/2 block mx-auto" />
-                <h1 className="text-7xl font-bold text-center text-white mt-3 mb-10">Photo Booth</h1>
+                <img src="/assets/logo-transparant.png" alt="Main Icon" className="w-3/4 block mx-auto" />
+                <h1 className="text-9xl font-bold text-center text-white mt-3 mb-10">MotoIn</h1>
                 <button
                     type="button"
                     className={`${fullScreen ? "hidden" : "block"} bg-sky-600 px-5 py-2 rounded-lg text-white mx-auto`}

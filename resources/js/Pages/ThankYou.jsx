@@ -4,8 +4,11 @@ import { router } from "@inertiajs/react";
 
 function ThankYou() {
     const [ display, setDisplay ] = useState("show");
+
+    const noMenu = (e) => e.preventDefault();
     
     useEffect(() => {
+        document.documentElement.addEventListener('contextmenu', noMenu);
         let timer = setTimeout(() => {
             setDisplay("close");
         }, 3300);
@@ -17,6 +20,7 @@ function ThankYou() {
         return () => {
             clearTimeout(timer);
             clearTimeout(go);
+            document.documentElement.removeEventListener('contextmenu', noMenu);
         };
     }, []);
 

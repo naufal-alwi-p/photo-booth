@@ -4,8 +4,11 @@ import { router } from "@inertiajs/react";
 
 function StatusPayment({ transaction_status, image = null, option = null }) {
     const [ display, setDisplay ] = useState("show");
+
+    const noMenu = (e) => e.preventDefault();
     
     useEffect(() => {
+        document.documentElement.addEventListener('contextmenu', noMenu);
         let timer = setTimeout(() => {
             setDisplay("close");
         }, 3300);
@@ -21,6 +24,7 @@ function StatusPayment({ transaction_status, image = null, option = null }) {
         return () => {
             clearTimeout(timer);
             clearTimeout(go);
+            document.documentElement.removeEventListener('contextmenu', noMenu);
         };
     }, []);
 

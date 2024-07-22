@@ -13,6 +13,8 @@ function CameraPage() {
     const [ preparation, setPreparation ] = useState(true);
     const camera = useRef(null);
 
+    const noMenu = (e) => e.preventDefault();
+
     let ratioOption;
 
     if (window.innerHeight > window.innerWidth) {
@@ -34,11 +36,15 @@ function CameraPage() {
     const [ ratioValue, setRatioValue ] = useState(ratioOption[2]);
 
     useEffect(() => {
+        document.documentElement.addEventListener('contextmenu', noMenu);
         let timer = setTimeout(() => {
             setShowText("camera");
         }, 3300);
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(timer);
+            document.documentElement.removeEventListener('contextmenu', noMenu);
+        };
     }, []);
 
     const cameraFunction = () => {

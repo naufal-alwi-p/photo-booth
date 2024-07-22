@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CountDownTimer from "../../components/CountDownTimer";
 import { router } from "@inertiajs/react";
 import CustomLoading from "../../components/CustomLoading";
@@ -11,12 +11,18 @@ function SelectOption ({ image, csrf, price }) {
     const [ option, setOption ] = useState(null);
     const [ loading, setLoading ] = useState(false);
 
-    useState(() => {
+    const noMenu = (e) => e.preventDefault();
+
+    useEffect(() => {
+        document.documentElement.addEventListener('contextmenu', noMenu);
         let timer = setTimeout(() => {
             setDisplay("option");
         }, 1400);
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(timer);
+            document.documentElement.removeEventListener('contextmenu', noMenu);
+        };
     }, []);
 
     function getQris(e) {

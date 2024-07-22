@@ -7,13 +7,19 @@ function SelectorImage({ images }) {
     const [ selectedImage, setSelectedImage ] = useState([]);
 
     console.log(images);
+
+    const noMenu = (e) => e.preventDefault();
     
     useEffect(() => {
+        document.documentElement.addEventListener('contextmenu', noMenu);
         let timer = setTimeout(() => {
             setShowImage("image");
         }, 1400);
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(timer);
+            document.documentElement.removeEventListener('contextmenu', noMenu);
+        };
     }, []);
 
     return (

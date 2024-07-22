@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Layer, Rect, Stage } from "react-konva";
 import { downloadURI, } from "../../data/EditorConstant";
 import LoadImage from "../../components/LoadImage";
@@ -15,12 +15,18 @@ function Editor({ images, frames }) {
 
     const stageRef = useRef(null);
 
-    useState(() => {
+    const noMenu = (e) => e.preventDefault();
+
+    useEffect(() => {
+        document.documentElement.addEventListener('contextmenu', noMenu);
         let timer = setTimeout(() => {
             setEditor("display");
         }, 3400);
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(timer);
+            document.documentElement.removeEventListener('contextmenu', noMenu);
+        };
     }, []);
 
     let initial, animate, exit;

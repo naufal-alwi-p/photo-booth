@@ -1,9 +1,16 @@
 import { Link, router } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Start() {
     const [ isVisible, setIsVisible ] = useState(true);
+
+    const noMenu = (e) => e.preventDefault();
+
+    useEffect(() => {
+        document.documentElement.addEventListener('contextmenu', noMenu);
+    }, []);
+
     return (
         <div className="h-screen bg-[url('/assets/bg-start.png')] portrait:bg-cover flex justify-center items-center overflow-hidden">
 
@@ -11,6 +18,7 @@ function Start() {
                 className="block w-fit"
                 onClick={() => {
                     setIsVisible(!isVisible);
+                    document.documentElement.removeEventListener('contextmenu', noMenu);
                     setTimeout(() => router.get("/camera"), 1000);
                 }}
             >
@@ -23,7 +31,7 @@ function Start() {
                             exit={{ scale: 1.5 , opacity: 0, transition: { repeat: 0, duration: 1 } }}
                             src="/assets/icon-start.png"
                             alt="Icon Start"
-                            className="w-3/4 mx-auto"
+                            className="w-5/6 mx-auto"
                         />
                     }
                 </AnimatePresence>

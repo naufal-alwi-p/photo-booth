@@ -1,6 +1,6 @@
 import parse from 'html-react-parser';
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CountDownTimer from "../../components/CountDownTimer";
 import { router } from '@inertiajs/react';
 
@@ -8,12 +8,22 @@ function GetOutput({ qr_code, print }) {
     const [ display, setDisplay ] = useState(false);
     console.log(qr_code);
 
+    const noMenu = (e) => e.preventDefault();
+
     function onExpire() {
         setDisplay(true);
         setTimeout(() => {
             router.get("/start");
         }, 1000);
     }
+
+    useEffect(() => {
+        document.documentElement.addEventListener('contextmenu', noMenu);
+
+        return () => {
+            document.documentElement.removeEventListener('contextmenu', noMenu);
+        };
+    }, []);
 
     return (
         <div className="h-screen bg-[url('/assets/select-bg.png')] flex portrait:flex-col items-center justify-evenly overflow-hidden relative">
