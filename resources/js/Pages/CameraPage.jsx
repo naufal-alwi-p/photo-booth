@@ -10,30 +10,23 @@ function CameraPage() {
     const [ shutter, setShutter ] = useState(false);
     const [ countDown, setCountDown ] = useState(false);
     const [ nextStep, setNextStep ] = useState(false);
-    const [ preparation, setPreparation ] = useState(true);
     const camera = useRef(null);
 
     const noMenu = (e) => e.preventDefault();
 
-    let ratioOption;
+    let ratio;
+    let width;
+    let height;
 
     if (window.innerHeight > window.innerWidth) {
-        ratioOption = [
-            ["3:2", 0.66],
-            ["4:3", 0.75],
-            ["5:4", 0.8],
-            ["16:9", 0.5625]
-        ];
+        ratio = 0.8;
+        width = window.innerWidth;
+        height = width * 0.8;
     } else {
-        ratioOption = [
-            ["3:2", 1.5],
-            ["4:3", 1.33],
-            ["5:4", 1.25],
-            ["16:9", 1.77]
-        ];
+        ratio = 1.25;
+        height = window.innerHeight;
+        width = height / 0.8;
     }
-
-    const [ ratioValue, setRatioValue ] = useState(ratioOption[2]);
 
     useEffect(() => {
         document.documentElement.addEventListener('contextmenu', noMenu);
@@ -78,9 +71,6 @@ function CameraPage() {
 
     function getPicture() {
         if (pictures.length < 6) {
-            if (preparation === true) {
-                setPreparation(false);
-            }
             setCountDown(true)
         }
     }
@@ -104,14 +94,17 @@ function CameraPage() {
                         Take Your Picture !
                     </motion.h1> : (showText === "camera" &&
                     <motion.div
-                        className="justify-center items-center w-fit h-full relative"
+                        key={"camera"}
+                        className="justify-center items-center portrait:flex-col portrait:gap-y-4 w-fit h-full relative"
                         initial={{ opacity: 0, scale: 0.2, display: "none" }}
                         animate={{ opacity:1, scale: 1, display: "flex", transition: { delay: 1, repeat: 0, duration: 1 } }}
                         exit={{ x: -window.innerWidth, transition: { ease: "backInOut", repeat: 0, duration: 1 } }}
                     >
                         <Webcam
                             videoConstraints={{
-                                aspectRatio: ratioValue[1],
+                                aspectRatio: ratio,
+                                // width: width,
+                                // height: height
                             }}
                             screenshotQuality={1}
                             screenshotFormat={'image/png'}
@@ -119,9 +112,29 @@ function CameraPage() {
                             audio={false}
                             className="w-full h-full relative"
                             ref={camera}
+                            onLoad={() => console.log(camera.current.width)}
                         >
-                            {() => <CameraUI preparation={preparation} setPictures={setPictures} getPicture={getPicture} cameraFunction={cameraFunction} pictures={pictures} countDown={countDown} setCountDown={setCountDown} shutter={shutter} ratioOption={ratioOption} ratioValue={ratioValue} setRatioValue={setRatioValue} goNextStep={goNextStep} nextStep={nextStep} />}
+                            {() => {
+                                let elem;
+
+                                if (window.innerHeight <= window.innerWidth) {
+                                    elem = (
+                                        <>
+                                            <div className={`w-full h-full absolute top-0 left-0 transition-colors ${shutter ? "bg-white/30" : "bg-transparent"} rounded-xl`}></div>
+                                            <CameraUI setPictures={setPictures} getPicture={getPicture} cameraFunction={cameraFunction} pictures={pictures} countDown={countDown} setCountDown={setCountDown} goNextStep={goNextStep} nextStep={nextStep} />
+                                        </>
+                                    );
+                                } else {
+                                    elem = <div className={`w-full h-full absolute top-0 left-0 transition-colors ${shutter ? "bg-white/30" : "bg-transparent"} rounded-xl`}></div>;
+                                }
+                                return elem;
+                            }}
                         </Webcam>
+                        {window.innerHeight > window.innerWidth &&
+                            <div className="relative w-full h-4/6">
+                                <CameraUI setPictures={setPictures} getPicture={getPicture} cameraFunction={cameraFunction} pictures={pictures} countDown={countDown} setCountDown={setCountDown} goNextStep={goNextStep} nextStep={nextStep} />
+                            </div>
+                        }
                     </motion.div>)
                 }
             </AnimatePresence>

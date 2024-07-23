@@ -1,9 +1,8 @@
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useEffect, useRef, useState } from "react";
 
-function CameraUI({ preparation, getPicture, cameraFunction, pictures, countDown, shutter, ratioOption, ratioValue, setRatioValue, goNextStep, nextStep  }) {
+function CameraUI({ getPicture, cameraFunction, pictures, countDown, goNextStep, nextStep  }) {
     const [ showMenu, setShowMenu ] = useState(false);
-    const ratioMenu = useRef(null);
     const timerMenu = useRef(null);
 
     const timerOption = [1, 3, 5, 7];
@@ -11,10 +10,14 @@ function CameraUI({ preparation, getPicture, cameraFunction, pictures, countDown
     const [ timerValue, setTimerValue ] = useState(timerOption[2]);
 
     const handler = (e) => {
-        if (showMenu && (!ratioMenu.current?.contains(e.target) && ratioMenu.current?.previousSibling !== e.target && !timerMenu.current?.contains(e.target) && timerMenu.current?.previousSibling !== e.target)) {
+        if (showMenu && (!timerMenu.current?.contains(e.target) && timerMenu.current?.previousSibling !== e.target)) {
             setShowMenu(false);
         }
     };
+
+    let voice1 = new Audio(`${window.location.origin}/audio/countdown.wav`);
+    let voice2 = new Audio(`${window.location.origin}/audio/1-second.wav`);
+    let voice3 = new Audio(`${window.location.origin}/audio/shutter.mp3`);
 
     useEffect(() => {
         document.addEventListener("click", handler);
@@ -24,40 +27,37 @@ function CameraUI({ preparation, getPicture, cameraFunction, pictures, countDown
 
     return (
         <>
-            <div className={`w-full h-full absolute top-0 left-0 transition-colors ${shutter ? "bg-white/30" : "bg-transparent"} rounded-xl`}></div>
-            {countDown && <div className="absolute timer-top-center timer-left-center opacity-20">
+            {countDown && <div className={`absolute ${window.innerHeight <= window.innerWidth ? "timer-top-center" : "top-12"} timer-left-center opacity-80`}>
                 <CountdownCircleTimer
                     isPlaying
                     duration={timerValue}
                     colors={['#0F172A', '#CBD5E1']}
                     colorsTime={[5, 0]}
+                    onUpdate={(time) => {
+                        if (time > 1) {
+                            voice1.play();
+                        }
+                        
+                        if (time === 1) {
+                            voice2.play();
+                        }
+                        
+                        if (time === 0) {
+                            voice3.play();
+                        }
+                    }}
                     onComplete={cameraFunction}
                 >
-                    {({ remainingTime }) => <span className="text-white text-5xl">{remainingTime}</span>}
+                    {({ remainingTime }) => {
+                        return (
+                            <span className="text-white text-5xl">{remainingTime}</span>
+                        );
+                    }}
                 </CountdownCircleTimer>
             </div>}
             <button
                 type="button"
-                className={`${preparation ? "block" : "hidden"} absolute top-12 left-11 w-24 py-0.5 border-2 rounded-lg border-white ${showMenu === "ratio" ? "bg-white text-black" : "bg-transparent text-white"} hover:bg-white hover:text-black`}
-                onClick={() => setShowMenu(showMenu === "ratio" ? false : "ratio")}
-            >
-                {`Ratio: ${ratioValue[0]}`}
-            </button>
-            <div
-                className={`${showMenu === "ratio" ? "block" : "hidden"} absolute top-24 left-11 w-fit flex flex-col gap-y-2`}
-                ref={ratioMenu}
-            >
-                {ratioOption.map(option => {
-                    if (option[0] === ratioValue[0]) {
-                        return (<button key={option[0]} type="button" className="block w-11 py-0.5 border-2 border-white rounded-lg bg-white text-black">{option[0]}</button>);
-                    } else {
-                        return (<button key={option[0]} type="button" className="block w-11 py-0.5 text-white border-2 border-white rounded-lg hover:bg-white hover:text-black" onClick={() => {setRatioValue(option); setShowMenu(false)}}>{option[0]}</button>);
-                    }
-                })}
-            </div>
-            <button
-                type="button"
-                className={`${countDown || nextStep ? "hidden" : "block"} absolute top-12 right-11 w-20 py-0.5 border-2 rounded-lg border-white ${showMenu === "timer" ? "bg-white text-black" : "bg-transparent text-white"} hover:bg-white hover:text-black`}
+                className={`${countDown || nextStep ? "hidden" : "block"} absolute top-12 right-11 w-28 text-2xl py-0.5 border-2 rounded-lg border-white ${showMenu === "timer" ? "bg-white text-black" : "bg-transparent text-white"} hover:bg-white hover:text-black`}
                 onClick={() => setShowMenu(showMenu === "timer" ? false : "timer")}
             >
                 {`Timer: ${timerValue}s`}
@@ -68,13 +68,13 @@ function CameraUI({ preparation, getPicture, cameraFunction, pictures, countDown
             >
                 {timerOption.map(option => {
                     if (option === timerValue) {
-                        return (<button key={option} type="button" className="block w-11 py-0.5 border-2 border-white rounded-lg bg-white text-black">{`${option}s`}</button>);
+                        return (<button key={option} type="button" className="block w-16 text-2xl py-0.5 border-2 border-white rounded-lg bg-white text-black">{`${option}s`}</button>);
                     } else {
-                        return (<button key={option} type="button" className="block w-11 py-0.5 text-white border-2 border-white rounded-lg hover:bg-white hover:text-black" onClick={() => {setTimerValue(option); setShowMenu(false)}}>{`${option}s`}</button>);
+                        return (<button key={option} type="button" className="block w-16 text-2xl py-0.5 text-white border-2 border-white rounded-lg hover:bg-white hover:text-black" onClick={() => {setTimerValue(option); setShowMenu(false)}}>{`${option}s`}</button>);
                     }
                 })}
             </div>
-            <div className={`${countDown ? "hidden" : "block"} text-center text-white text-3xl w-fit absolute left-11 bottom-12`}>
+            <div className={`${countDown ? "hidden" : "block"} text-center text-white text-4xl w-fit absolute left-11 bottom-12`}>
                 {pictures.length}/6
             </div>
             <button type="button" disabled={nextStep || countDown} className="absolute bottom-5 camera-btn-left-center rounded-full p-10 bg-slate-500 hover:bg-slate-400 disabled:hover:bg-slate-500 disabled:opacity-40 disabled:text-slate-200" onClick={getPicture}>
