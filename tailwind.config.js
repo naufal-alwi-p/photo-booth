@@ -19,6 +19,12 @@ export default {
     require('@tailwindcss/forms')({
       strategy: 'class'
     }),
+    require('tailwind-scrollbar')({ nocompatible: true }),
+    require('daisyui')
   ],
+  daisyui: {
+    themes: [],
+    base: false
+  }
 }
 

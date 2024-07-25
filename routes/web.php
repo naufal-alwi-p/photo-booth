@@ -8,7 +8,6 @@ Route::inertia('/', 'Home');
 
 Route::inertia('/start', 'Start');
 Route::inertia('/camera', 'CameraPage');
-Route::post('/store-image', [UserController::class, 'storeImage']);
 Route::post('/editor', [UserController::class, 'editor']);
 Route::post('/select-option', [UserController::class, 'editorHandling']);
 Route::post('/status-payment', [UserController::class, 'statusPayment']);
@@ -23,7 +22,11 @@ Route::get('/admin', [AdminController::class, 'adminLoginPage']);
 Route::get('/admin/registration', [AdminController::class, 'adminRegisterPage']);
 Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboardPage']);
 Route::get('/admin/add-frame', [AdminController::class, 'AdminAddFramePage']);
+Route::get('/admin/edit-frame/{frame}', [AdminController::class, 'adminEditFramePage']);
 
 Route::post('/admin-login-handler', [AdminController::class, 'adminLoginHandler']);
 Route::post('/admin-regis-handler', [AdminController::class,'adminRegisterHandling']);
 Route::post('add-frame-handler', [AdminController::class, 'AdminAddFrameHandler']);
+Route::post('/update-frame-handler', [AdminController::class, 'adminUpdateFrameHandler']);
+Route::post('/change-frame-visibility', [AdminController::class, 'changeFrameVisibility']);
+Route::post('/delete-frame', [AdminController::class, 'deleteFrame']);

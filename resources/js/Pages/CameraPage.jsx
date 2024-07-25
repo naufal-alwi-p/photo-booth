@@ -77,7 +77,7 @@ function CameraPage() {
 
     function goNextStep() {
         setShowText(false);
-        setTimeout(() => router.post("/store-image", { img: pictures }), 1000);
+        setTimeout(() => router.post("/editor", { img: pictures }), 1000);
     }
 
     return (

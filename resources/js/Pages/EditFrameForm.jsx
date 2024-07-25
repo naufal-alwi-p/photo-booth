@@ -4,10 +4,11 @@ import { router, useForm } from "@inertiajs/react";
 import LoadImage2 from "../../components/LoadImage2";
 import LoadImage from "../../components/LoadImage";
 
-function AddFrameForm() {
+function EditFrameForm({ frame }) {
+    console.log(frame);
     const [ zoom, setZoom ] = useState(1);
 
-    const [ image, setImage ] = useState({src: false, width: 0, height: 0});
+    const [ image, setImage ] = useState({src: `${window.location.origin}/storage/frames/${frame.filename}`, width: frame.image_width, height: frame.image_height});
 
     const [ seePreview, setSeePreview ] = useState(false);
 
@@ -15,21 +16,21 @@ function AddFrameForm() {
 
     const { data, setData, post, processing, errors } = useForm({
         'frame': null,
-        'name': '',
-        'frame_width': 0,
-        'frame_height': 0,
-        'number_of_photos': 3,
-        'row': 3,
-        'column': 1,
-        'left_margin': 0,
-        'right_margin': 0,
-        'top_margin': 0,
-        'bottom_margin': 0,
-        'margin_x_between': 0,
-        'margin_y_between': 0,
-        'photo_position': [],
-        'printable': false,
-        'visibility': true
+        'name': frame.name,
+        'frame_width': frame.frame_width,
+        'frame_height': frame.frame_height,
+        'number_of_photos': frame.number_of_photos,
+        'row': frame.row,
+        'column': frame.column,
+        'left_margin': frame.left_margin,
+        'right_margin': frame.right_margin,
+        'top_margin': frame.top_margin,
+        'bottom_margin': frame.bottom_margin,
+        'margin_x_between': frame.margin_x_between,
+        'margin_y_between': frame.margin_y_between,
+        'photo_position': JSON.parse(frame.photo_position),
+        'printable': frame.printable,
+        'visibility': frame.visibility
     });
 
     function handleFile(e) {
@@ -115,10 +116,8 @@ function AddFrameForm() {
         }
 
         if (to_json) {
-            // setData('photo_position', JSON.stringify(picturePosition));
             return JSON.stringify(picturePosition);
         } else {
-            // setData('photo_position', picturePosition);
             return picturePosition;
         }
     }
@@ -126,7 +125,11 @@ function AddFrameForm() {
     function handleSubmit(e) {
         e.preventDefault();
 
-        router.post('/add-frame-handler', { ...data, photo_position:  calculatePhotoPosition(data.number_of_photos, image.width, image.height, true) });
+        if (data.frame === null) {
+            delete data.frame;
+        }
+
+        router.post('/update-frame-handler', { ...data, id: frame.id, photo_position:  calculatePhotoPosition(data.number_of_photos, image.width, image.height, true) });
     }
 
     return (
@@ -399,4 +402,4 @@ function AddFrameForm() {
     );
 }
 
-export default AddFrameForm;
+export default EditFrameForm;

@@ -15,7 +15,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class UserController extends Controller
 {
-    public function storeImage(Request $request) {
+    public function editor(Request $request) {
+
         $images = [];
 
         foreach ($request->input('img') as $image) {
@@ -28,21 +29,10 @@ class UserController extends Controller
             Storage::put("public/temp/$filename", base64_decode($pict));
         }
 
-        return inertia('SelectorImage', [
-            'images' => $images,
-        ]);
-    }
-
-    public function editor(Request $request) {
-
-        $data = $request->validate([
-            'selectedImage' => 'required|array'
-        ]);
-
-        $frames = Frame::all();
+        $frames = Frame::where('visibility', 1)->get();
 
         return inertia('Editor', [
-            'images' => $data['selectedImage'],
+            'images' => $images,
             'frames' => $frames
         ]);
     }
