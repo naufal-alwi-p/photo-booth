@@ -57,7 +57,7 @@ return [
         ],
         'dropbox' => [
             'driver' => 'dropbox',
-            'authorization_token' => env('DROPBOX_AUTHORIZATION_TOKEN', ''),
+            'authorization_token' => '',
             'case_sensitive' => false
         ]
     ],

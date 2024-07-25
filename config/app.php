@@ -123,4 +123,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /**
+     * Midtrans Server Key
+     */
+
+    'midtrans_server_key' => env('MIDTRANS_SERVER_KEY', ''),
+
+    /**
+     * Dropbox API
+     */
+
+     'dropbox_app_key' => env('DROPBOX_APP_KEY', ''),
+     'dropbox_secret_key' => env('DROPBOX_SECRECT_KEY'),
+
 ];

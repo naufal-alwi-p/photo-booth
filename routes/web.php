@@ -26,6 +26,8 @@ Route::get('/admin/edit-frame/{frame}', [AdminController::class, 'adminEditFrame
 
 Route::post('/admin-login-handler', [AdminController::class, 'adminLoginHandler']);
 Route::post('/admin-regis-handler', [AdminController::class,'adminRegisterHandling']);
+Route::get('/handle-dropbox-auth', [AdminController::class, 'handleDropboxAuth']);
+Route::post('/logout-dropbox', [AdminController::class, 'logoutDropbox']);
 Route::post('add-frame-handler', [AdminController::class, 'AdminAddFrameHandler']);
 Route::post('/update-frame-handler', [AdminController::class, 'adminUpdateFrameHandler']);
 Route::post('/change-frame-visibility', [AdminController::class, 'changeFrameVisibility']);

@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DropboxAuth;
 use App\Models\Frame;
 use GuzzleHttp\Client;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
-use Midtrans\Config;
+use Midtrans\Config as MidtransConfig;
 use Midtrans\CoreApi;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -75,7 +78,7 @@ class UserController extends Controller
     }
 
     public function getQris(Request $request) {
-        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        MidtransConfig::$serverKey = Config::get('app.midtrans_server_key');
 
         $params = [
             'transaction_details' => [
@@ -106,7 +109,7 @@ class UserController extends Controller
             "headers" => [
                 "Accept" => "application/json",
                 "Content-Type" => "application/json",
-                "Authorization" => 'Basic ' . base64_encode(env('MIDTRANS_SERVER_KEY') . ':')
+                "Authorization" => 'Basic ' . base64_encode(Config::get('app.midtrans_server_key') . ':')
             ],
         ]);
 
@@ -122,7 +125,7 @@ class UserController extends Controller
             "headers" => [
                 "Accept" => "application/json",
                 "Content-Type" => "application/json",
-                "Authorization" => 'Basic ' . base64_encode(env('MIDTRANS_SERVER_KEY') . ':')
+                "Authorization" => 'Basic ' . base64_encode(Config::get('app.midtrans_server_key') . ':')
             ],
         ]);
 
@@ -136,6 +139,18 @@ class UserController extends Controller
     }
 
     public function getOutput(Request $request) {
+        $dropbox_auth = DropboxAuth::first();
+
+        if ($dropbox_auth === null) {
+            abort(500);
+        }
+
+        if (Carbon::now()->greaterThanOrEqualTo($dropbox_auth->expires_date)) {
+            if (!AdminController::refreshAccessToken()) {
+                abort(500);
+            }
+        }
+
         $file = new File((Storage::path('/public/result/' . $request->input('image'))));
         $dropbox_path = Storage::disk('dropbox')->put("/coba", $file);
         $dropbox_url = Storage::disk('dropbox')->url($dropbox_path);

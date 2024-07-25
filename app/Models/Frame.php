@@ -9,6 +9,8 @@ class Frame extends Model
 {
     use HasFactory;
 
+    protected $table = 'frames';
+
     protected $fillable = [
         'name',
         'filename',

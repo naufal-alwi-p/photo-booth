@@ -13,7 +13,7 @@ function AddFrameForm() {
 
     const stageRef = useRef(null);
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, processing, errors } = useForm({
         'frame': null,
         'name': '',
         'frame_width': 0,
@@ -126,7 +126,7 @@ function AddFrameForm() {
     function handleSubmit(e) {
         e.preventDefault();
 
-        router.post('/add-frame-handler', { ...data, photo_position:  calculatePhotoPosition(data.number_of_photos, image.width, image.height, true) });
+        router.post('/add-frame-handler', { ...data, photo_position:  calculatePhotoPosition(data.number_of_photos, image.width, image.height) });
     }
 
     return (

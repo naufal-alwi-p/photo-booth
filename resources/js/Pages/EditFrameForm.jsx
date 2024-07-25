@@ -14,7 +14,7 @@ function EditFrameForm({ frame }) {
 
     const stageRef = useRef(null);
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, processing, errors } = useForm({
         'frame': null,
         'name': frame.name,
         'frame_width': frame.frame_width,
@@ -28,7 +28,7 @@ function EditFrameForm({ frame }) {
         'bottom_margin': frame.bottom_margin,
         'margin_x_between': frame.margin_x_between,
         'margin_y_between': frame.margin_y_between,
-        'photo_position': JSON.parse(frame.photo_position),
+        'photo_position': frame.photo_position,
         'printable': frame.printable,
         'visibility': frame.visibility
     });
@@ -129,7 +129,7 @@ function EditFrameForm({ frame }) {
             delete data.frame;
         }
 
-        router.post('/update-frame-handler', { ...data, id: frame.id, photo_position:  calculatePhotoPosition(data.number_of_photos, image.width, image.height, true) });
+        router.post('/update-frame-handler', { ...data, id: frame.id, photo_position:  calculatePhotoPosition(data.number_of_photos, image.width, image.height) });
     }
 
     return (
