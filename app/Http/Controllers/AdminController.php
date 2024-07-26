@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ImageOrientation;
 use App\Models\DropboxAuth;
 use App\Models\Frame;
+use App\Models\Price;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -95,6 +96,67 @@ class AdminController extends Controller
         $frames = Frame::select('id', 'filename', 'frame_width', 'frame_height', 'name', 'visibility')->get();
     
         return inertia('AdminDashboard', ['frames' => $frames, 'csrf' => csrf_token(), 'login_dropbox' => $login_dropbox]);
+    }
+
+    public function adminPriceFormPage() {
+        if (!Auth::check()) {
+            abort(404);
+        }
+
+        $login_dropbox = "";
+
+        if (Auth::user()->dropbox_auth === null) {
+            $login_dropbox = "https://www.dropbox.com/oauth2/authorize?client_id=" . Config::get('app.dropbox_app_key') . "&token_access_type=offline&response_type=code&redirect_uri=" . urlencode('https://photo-booth.test/handle-dropbox-auth');
+        } else {
+            if (Carbon::now()->greaterThanOrEqualTo(Auth::user()->dropbox_auth->expires_date)) {
+                $login_dropbox = self::refreshAccessToken() ? '' : ("https://www.dropbox.com/oauth2/authorize?client_id=" . Config::get('app.dropbox_app_key') . "&token_access_type=offline&response_type=code&redirect_uri=" . urlencode('https://photo-booth.test/handle-dropbox-auth'));
+            }
+        }
+
+        $prices = Price::all();
+
+        return inertia('AdminPriceForm', [
+            'login_dropbox' => $login_dropbox,
+            'prices' => $prices
+        ]);
+    }
+
+    public function adminUpdatePriceHandler(Request $request) {
+        if (!Auth::check()) {
+            abort(404);
+        }
+
+        $data = $request->validate([
+            'no_payment' => 'required|boolean',
+            'price_1' => 'required|numeric|integer|min:0',
+            'price_2' => 'required|numeric|integer|min:0',
+            'visibility_2' => 'required|boolean',
+        ]);
+
+        $prices = Price::all();
+
+        if ($data['no_payment'] === true) {
+            $prices[0]->visibility = false;
+            $prices[1]->visibility = false;
+
+            $prices[0]->price = $data['price_1'];
+            $prices[1]->price = $data['price_2'];
+        } else {
+            $prices[0]->visibility = true;
+            $prices[1]->visibility = $data['visibility_2'];
+
+            $prices[0]->price = $data['price_1'];
+            $prices[1]->price = $data['price_2'];
+        }
+
+        $result = $prices[0]->save() && $prices[1]->save();
+
+        if ($result) {
+            return redirect('/admin/dashboard/price');
+        } else {
+            return redirect()->back()->withErrors(['info' => 'Gagal Update Harga']);
+        }
+
     }
 
     public function handleDropboxAuth(Request $request) {
@@ -435,5 +497,19 @@ class AdminController extends Controller
         } else {
             return redirect()->back()->withErrors(['info' => 'Update Frame Gagal']);
         }
+    }
+
+    public function adminLogout(Request $request) {
+        if (!Auth::check()) {
+            abort(404);
+        }
+        
+        Auth::logout();
+ 
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect('/');
     }
 }

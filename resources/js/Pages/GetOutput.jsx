@@ -62,7 +62,7 @@ function GetOutput({ qr_code, print }) {
                     exit={{ opacity: 0, scale: 0.1, transition: { repeat: 0, duration: 1 } }}
                     className="text-white text-5xl absolute top-5"
                 >
-                    <CountDownTimer expiryTimestamp={new Date(Date.now() + (5 * 1000 * 60))} onExpire={onExpire} />
+                    <CountDownTimer expiryTimestamp={new Date(Date.now() + (2 * 1000 * 60))} onExpire={onExpire} />
                 </motion.p>
                 <motion.button
                     key={"done"}

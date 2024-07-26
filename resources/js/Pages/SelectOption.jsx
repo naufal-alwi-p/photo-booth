@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import CountDownTimer from "../../components/CountDownTimer";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import CustomLoading from "../../components/CustomLoading";
 
 
@@ -176,23 +176,35 @@ function SelectOption ({ image, csrf, price }) {
                         exit={{ opacity: 0, scale: 0.1, transition: { repeat: 0, duration: 1 } }}
                         className="flex justify-center portrait:flex-col portrait:gap-y-14 h-full items-center absolute w-full"
                     >
-                        <button
-                            type="button"
-                            className="text-6xl font-bold px-5 py-3 rounded-2xl bg-[#F76505] hover:bg-orange-600 text-white landscape:w-1/3 portrait:w-1/2 mx-auto"
-                            value="0"
-                            onClick={getQris}
-                        >
-                            Download The Picture {price[0].price_str}
-                        </button>
+                        {price[0].price === 0 ?
+                            <Link
+                                method="post"
+                                href="/status-payment"
+                                data={{ image: image, option: price[0], transaction_status: "capture" }}
+                                className="text-6xl text-center font-bold px-5 py-3 rounded-2xl bg-[#F76505] hover:bg-orange-600 text-white landscape:w-1/3 portrait:w-1/2 mx-auto"
+                            >
+                                Download The Picture
+                            </Link> :
+                            <button
+                                type="button"
+                                className="text-6xl font-bold px-5 py-3 rounded-2xl bg-[#F76505] hover:bg-orange-600 text-white landscape:w-1/3 portrait:w-1/2 mx-auto"
+                                value="0"
+                                onClick={getQris}
+                            >
+                                Download The Picture {price[0].price_str}
+                            </button>
+                        }
 
-                        <button
-                            type="button"
-                            className="text-6xl font-bold px-5 py-3 rounded-2xl bg-[#F76505] hover:bg-orange-600 text-white landscape:w-1/3 portrait:w-1/2 mx-auto"
-                            value="1"
-                            onClick={getQris}
-                        >
-                            Print The Picture {price[1].price_str}
-                        </button>
+                        {price[1] &&
+                            <button
+                                type="button"
+                                className="text-6xl font-bold px-5 py-3 rounded-2xl bg-[#F76505] hover:bg-orange-600 text-white landscape:w-1/3 portrait:w-1/2 mx-auto"
+                                value="1"
+                                onClick={getQris}
+                            >
+                                Print The Picture {price[1].price_str}
+                            </button>
+                        }
                     </motion.div>
                 }
                 {display === "qris" &&
@@ -216,7 +228,7 @@ function SelectOption ({ image, csrf, price }) {
                             <img src={midtransResponse.actions[0].url} alt="QRIS Image" className="landscape:w-1/3 portrait:w-1/2" />
                             <p className="bg-white font-bold px-3 py-3 rounded-lg text-3xl mt-7">{option.price_str}</p>
                             <p className="text-white text-5xl mt-7">
-                                Time Remaining <CountDownTimer expiryTimestamp={new Date(midtransResponse.expiry_time)} onExpire={onExpire} />
+                                Time Remaining <CountDownTimer expiryTimestamp={new Date(Date.now() + (5 * 1000 * 60))} onExpire={onExpire} />
                             </p>
                             <button
                                 type="button"

@@ -21,11 +21,14 @@ Route::post('/cancel-payment', [UserController::class, 'cancelPayment']);
 Route::get('/admin', [AdminController::class, 'adminLoginPage']);
 Route::get('/admin/registration', [AdminController::class, 'adminRegisterPage']);
 Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboardPage']);
+Route::get('/admin/dashboard/price', [AdminController::class, 'adminPriceFormPage']);
 Route::get('/admin/add-frame', [AdminController::class, 'AdminAddFramePage']);
 Route::get('/admin/edit-frame/{frame}', [AdminController::class, 'adminEditFramePage']);
+Route::post('/admin-logout', [AdminController::class, 'adminLogout']);
 
 Route::post('/admin-login-handler', [AdminController::class, 'adminLoginHandler']);
 Route::post('/admin-regis-handler', [AdminController::class,'adminRegisterHandling']);
+Route::post('/admin-update-price', [AdminController::class, 'adminUpdatePriceHandler']);
 Route::get('/handle-dropbox-auth', [AdminController::class, 'handleDropboxAuth']);
 Route::post('/logout-dropbox', [AdminController::class, 'logoutDropbox']);
 Route::post('add-frame-handler', [AdminController::class, 'AdminAddFrameHandler']);

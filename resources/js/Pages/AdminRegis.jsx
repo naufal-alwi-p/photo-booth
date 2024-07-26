@@ -15,7 +15,7 @@ function AdminRegis() {
 
     return (
         <div className="h-screen flex justify-center items-center">
-            <form className="px-10 py-3 w-1/3 bg-slate-400 rounded-md" onSubmit={handleSubmit}>
+            <form className="px-10 py-3 landscape:w-1/3 portrait:w-2/3 bg-slate-400 rounded-md" onSubmit={handleSubmit}>
                 <h1 className="font-bold text-3xl text-center my-3">Admin Registration*</h1>
                 <div className="mb-4">
                     <label htmlFor="nama" className="block font-bold">Name:</label>

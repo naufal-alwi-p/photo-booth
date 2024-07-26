@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DropboxAuth;
 use App\Models\Frame;
+use App\Models\Price;
 use GuzzleHttp\Client;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -46,8 +47,6 @@ class UserController extends Controller
         $filename = Str::random(40);
 
         if (Storage::put("public/result/$filename.png", base64_decode($pict))) {
-            // return inertia('SelectOption', ['file' => $filename]);
-
             $file_path = Storage::path("/public/result/$filename.png");
 
             $image = new \Imagick($file_path);
@@ -56,21 +55,31 @@ class UserController extends Controller
 
             $image->writeImage(Storage::path("/public/result/$filename.pdf"));
 
+            $prices = Price::all();
+
+            $download_price = $prices[0]->visibility ? $prices[0]->price : 0;
+            $print_price = $prices[1]->visibility ? $prices[1]->price : 0;
+
+            $price = [
+                [
+                    "type" => "download",
+                    "price" => $download_price,
+                    "price_str" => explode(',', Number::currency($download_price, 'IDR', 'id'))[0]
+                ],
+            ];
+
+            if ($prices[1]->visibility) {
+                array_push($price, [
+                    "type" => "print",
+                    "price" => $print_price,
+                    "price_str" => explode(',', Number::currency($print_price, 'IDR', 'id'))[0]
+                ]);
+            }
+
             return inertia('SelectOption', [
                 'image' => "$filename.png",
                 "csrf" => csrf_token(),
-                "price" => [
-                    [
-                        "type" => "download",
-                        "price" => 25000,
-                        "price_str" => explode(',', Number::currency(25000, 'IDR', 'id'))[0]
-                    ],
-                    [
-                        "type" => "print",
-                        "price" => 35000,
-                        "price_str" => explode(',', Number::currency(35000, 'IDR', 'id'))[0]
-                    ]
-                ]
+                "price" => $price,
             ]);
         } else {
             abort(404);
