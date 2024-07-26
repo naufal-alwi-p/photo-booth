@@ -144,6 +144,8 @@ class UserController extends Controller
     }
 
     public function statusPayment(Request $request) {
+        Storage::delete(Storage::files('/public/temp'));
+
         return inertia('StatusPayment', $request->all());
     }
 
@@ -182,6 +184,8 @@ class UserController extends Controller
     }
 
     public function thankYou() {
+        Storage::delete(Storage::files('/public/result'));
+        
         return inertia('ThankYou');
     }
 }

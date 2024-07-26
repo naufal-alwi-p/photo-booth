@@ -82,7 +82,6 @@ function Editor({ images, frames }) {
                                         fill="white"
                                         id="background"
                                     />
-                                    <LoadImage2 src={`/storage/frames/${selectedFrame.filename}`} x={0} y={0} />
                                     {Array(selectedFrame.number_of_photos).fill(1).map((value, index) => {
                                         if (index < selectedImage.length) {
                                             return (
@@ -94,6 +93,7 @@ function Editor({ images, frames }) {
                                             );
                                         }
                                     })}
+                                    <LoadImage2 src={`/storage/frames/${selectedFrame.filename}`} x={0} y={0} />
                                 </Layer>
                             </Stage>
 
