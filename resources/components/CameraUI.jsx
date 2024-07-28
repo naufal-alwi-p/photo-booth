@@ -5,9 +5,9 @@ function CameraUI({ getPicture, cameraFunction, pictures, countDown, goNextStep,
     const [ showMenu, setShowMenu ] = useState(false);
     const timerMenu = useRef(null);
 
-    const timerOption = [1, 3, 5, 7];
+    const timerOption = [3, 5, 7];
 
-    const [ timerValue, setTimerValue ] = useState(timerOption[2]);
+    const [ timerValue, setTimerValue ] = useState(timerOption[1]);
 
     const handler = (e) => {
         if (showMenu && (!timerMenu.current?.contains(e.target) && timerMenu.current?.previousSibling !== e.target)) {

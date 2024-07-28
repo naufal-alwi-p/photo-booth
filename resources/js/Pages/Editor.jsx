@@ -82,6 +82,7 @@ function Editor({ images, frames }) {
                                         fill="white"
                                         id="background"
                                     />
+                                    <LoadImage2 src={`/storage/frames/${selectedFrame.filename}`} x={0} y={0} />
                                     {Array(selectedFrame.number_of_photos).fill(1).map((value, index) => {
                                         if (index < selectedImage.length) {
                                             return (
@@ -93,7 +94,6 @@ function Editor({ images, frames }) {
                                             );
                                         }
                                     })}
-                                    <LoadImage2 src={`/storage/frames/${selectedFrame.filename}`} x={0} y={0} />
                                 </Layer>
                             </Stage>
 
@@ -147,7 +147,7 @@ function Editor({ images, frames }) {
                                         );
                                     })}
                                 </div> :
-                                <div className="bg-slate-100 rounded-md carousel gap-x-5 py-3 h-[80%] scrollbar-thin">
+                                <div className="bg-slate-100 rounded-md carousel gap-x-5 py-3 w-full h-[80%] scrollbar-thin">
                                     {frames.map((frame, index) => {
                                         return (
                                             <div

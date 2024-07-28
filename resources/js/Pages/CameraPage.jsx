@@ -102,9 +102,9 @@ function CameraPage() {
                     >
                         <Webcam
                             videoConstraints={{
-                                aspectRatio: ratio,
-                                // width: width,
-                                // height: height
+                                // aspectRatio: ratio,
+                                width: width,
+                                height: height
                             }}
                             screenshotQuality={1}
                             screenshotFormat={'image/png'}
