@@ -4,7 +4,7 @@ import { downloadURI, } from "../../data/EditorConstant";
 import LoadImage from "../../components/LoadImage";
 import LoadImage2 from "../../components/LoadImage2";
 import { AnimatePresence, motion } from "framer-motion";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 function Editor({ images, frames }) {
     const [ zoom, setZoom ] = useState(1);
@@ -175,6 +175,12 @@ function Editor({ images, frames }) {
                                     })}
                                 </div>
                             }
+                            <Link href="/camera" className="bg-red-500 hover:bg-red-600 text-white px-5 py-1 rounded-full absolute bottom-5 left-5 text-2xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4 me-3 inline">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                                </svg>
+                                Go Back
+                            </Link>
                             {selectedImage.length === selectedFrame.number_of_photos &&
                                 <button
                                     type="button"

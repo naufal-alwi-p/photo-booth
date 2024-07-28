@@ -205,6 +205,16 @@ function SelectOption ({ image, csrf, price }) {
                                 Print The Picture {price[1].price_str}
                             </button>
                         }
+                        <button
+                            type="button"
+                            className="bg-red-500 hover:bg-red-600 text-white px-5 py-1 rounded-full absolute bottom-5 left-5 text-2xl"
+                            onClick={() => history.back()}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4 me-3 inline">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                            </svg>
+                            Go Back
+                        </button>
                     </motion.div>
                 }
                 {display === "qris" &&
@@ -229,6 +239,9 @@ function SelectOption ({ image, csrf, price }) {
                             <p className="bg-white font-bold px-3 py-3 rounded-lg text-3xl mt-7">{option.price_str}</p>
                             <p className="text-white text-5xl mt-7">
                                 Time Remaining <CountDownTimer expiryTimestamp={new Date(Date.now() + (5 * 1000 * 60))} onExpire={onExpire} />
+                            </p>
+                            <p className="text-white mt-3">
+                                After you pay, click the <span className="bg-green-500 inline-block py-0.5 px-2 rounded-full">"Check Payment Status"</span> button to continue
                             </p>
                             <button
                                 type="button"

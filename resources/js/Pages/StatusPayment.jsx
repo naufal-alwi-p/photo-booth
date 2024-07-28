@@ -40,10 +40,13 @@ function StatusPayment({ transaction_status, image = null, option = null }) {
                         className="w-full h-fit"
                     >
                         {transaction_status === "capture" || transaction_status === "settlement" ?
-                            <p className="text-white font-bold text-center text-5xl">Payment Successful<br/>Please Wait...</p> :
+                            <>
+                                <img src="/assets/success-icon.png" alt="Success Icon" className="w-1/3 mx-auto" />
+                                <p className="text-white font-bold text-center text-5xl mt-5">Payment Successful<br/>Please Wait...</p>
+                            </> :
                             <>
                                 <img src="/assets/failed-icon.png" alt="Failed Icon" className="w-1/3 mx-auto" />
-                                <p className="text-white font-bold text-center text-5xl">Payment Failed</p>
+                                <p className="text-white font-bold text-center text-5xl mt-5">Payment Failed</p>
                             </>
                         }
                     </motion.div>

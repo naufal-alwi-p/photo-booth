@@ -1,5 +1,6 @@
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "@inertiajs/react";
 
 function CameraUI({ getPicture, cameraFunction, pictures, countDown, goNextStep, nextStep  }) {
     const [ showMenu, setShowMenu ] = useState(false);
@@ -55,6 +56,12 @@ function CameraUI({ getPicture, cameraFunction, pictures, countDown, goNextStep,
                     }}
                 </CountdownCircleTimer>
             </div>}
+            <Link href="/start" className="bg-red-500 hover:bg-red-600 text-white px-5 py-1 rounded-full absolute top-12 left-11 text-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4 me-3 inline">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+                Go Back
+            </Link>
             <button
                 type="button"
                 className={`${countDown || nextStep ? "hidden" : "block"} absolute top-12 right-11 w-28 text-2xl py-0.5 border-2 rounded-lg border-white ${showMenu === "timer" ? "bg-white text-black" : "bg-transparent text-white"} hover:bg-white hover:text-black`}
