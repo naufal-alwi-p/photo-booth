@@ -28,10 +28,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $dropbox_auth = DropboxAuth::first();
+        try {
+            $dropbox_auth = DropboxAuth::first();
 
-        if ($dropbox_auth) {
-            Config::set('filesystems.disks.dropbox.authorization_token', Crypt::decrypt($dropbox_auth->access_token));
+            if ($dropbox_auth) {
+                Config::set('filesystems.disks.dropbox.authorization_token', Crypt::decrypt($dropbox_auth->access_token));
+            }
+        } catch (\Throwable $th) {
+            Config::set('filesystems.disks.dropbox.authorization_token', '');
         }
 
         Storage::extend('dropbox', function (Application $app, array $config) {
