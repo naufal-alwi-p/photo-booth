@@ -64,20 +64,23 @@ function CameraUI({ getPicture, cameraFunction, pictures, countDown, goNextStep,
             </Link>
             <button
                 type="button"
-                className={`${countDown || nextStep ? "hidden" : "block"} absolute top-12 right-11 w-28 text-2xl py-0.5 border-2 rounded-lg border-white ${showMenu === "timer" ? "bg-white text-black" : "bg-transparent text-white"} hover:bg-white hover:text-black`}
+                className={`${countDown || nextStep ? "hidden" : "block"} absolute top-12 right-11 w-80 text-4xl py-0.5 border-2 border-white rounded-lg text-white ${showMenu === "timer" ? "bg-violet-700" : "bg-violet-600"} hover:bg-violet-700`}
                 onClick={() => setShowMenu(showMenu === "timer" ? false : "timer")}
             >
-                {`Timer: ${timerValue}s`}
+                {`Timer: ${timerValue} seconds`}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="size-7 ms-2 inline">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                </svg>
             </button>
             <div
-                className={`${showMenu === "timer" ? "block" : "hidden"} absolute top-24 right-11 w-fit flex flex-col gap-y-2`}
+                className={`${showMenu === "timer" ? "block" : "hidden"} absolute top-28 right-11 w-fit flex flex-col gap-y-2`}
                 ref={timerMenu}
             >
                 {timerOption.map(option => {
                     if (option === timerValue) {
-                        return (<button key={option} type="button" className="block w-16 text-2xl py-0.5 border-2 border-white rounded-lg bg-white text-black">{`${option}s`}</button>);
+                        return (<button key={option} type="button" className="block w-16 text-3xl py-0.5 border-2 border-white rounded-lg bg-white text-black">{`${option}s`}</button>);
                     } else {
-                        return (<button key={option} type="button" className="block w-16 text-2xl py-0.5 text-white border-2 border-white rounded-lg hover:bg-white hover:text-black" onClick={() => {setTimerValue(option); setShowMenu(false)}}>{`${option}s`}</button>);
+                        return (<button key={option} type="button" className="block w-16 text-3xl py-0.5 text-white border-2 border-white rounded-lg hover:bg-white hover:text-black" onClick={() => {setTimerValue(option); setShowMenu(false)}}>{`${option}s`}</button>);
                     }
                 })}
             </div>
@@ -94,10 +97,10 @@ function CameraUI({ getPicture, cameraFunction, pictures, countDown, goNextStep,
             <button
                 type="button"
                 onClick={goNextStep}
-                className={`${nextStep ? "block" : "hidden"} absolute bottom-12 right-11 py-1.5 px-10 bg-sky-500 text- text-2xl rounded-3xl hover:bg-sky-600`}
+                className={`${nextStep ? "block" : "hidden"} absolute bottom-12 right-11 py-1.5 px-10 bg-sky-500 text- text-4xl text-white rounded-3xl hover:bg-sky-600`}
             >
                 Next
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4 ms-3 inline-block">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-7 ms-3 inline-block">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                 </svg>
             </button>

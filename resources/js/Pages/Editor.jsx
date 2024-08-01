@@ -97,7 +97,7 @@ function Editor({ images, frames }) {
                                 </Layer>
                             </Stage>
 
-                            <div className="fixed landscape:bottom-5 left-5 portrait:top-5 bg-slate-300 py-1.5 px-5 text-2xl rounded-2xl">
+                            <div className="fixed landscape:bottom-5 left-5 portrait:top-5 bg-slate-300 py-1.5 px-5 text-4xl rounded-2xl">
                                 <span>Zoom:</span>
                                 <input type="range" className="m-0 align-middle me-3 ms-3 w-56" min={0.1} max={((selectedFrame.frame_width < 600) && (selectedFrame.frame_height < 600)) ? 1.5 : 1} step={0.05} value={zoom} onChange={(e) => setZoom(e.target.value)} />
                                 <span>{Math.trunc(zoom * 100)}%</span>
@@ -184,7 +184,7 @@ function Editor({ images, frames }) {
                             {selectedImage.length === selectedFrame.number_of_photos &&
                                 <button
                                     type="button"
-                                    className="absolute bottom-5 right-5 py-1.5 px-10 bg-sky-500 text- text-2xl rounded-3xl hover:bg-sky-600"
+                                    className="absolute bottom-5 right-5 py-1.5 px-10 bg-sky-500 text-white text-2xl rounded-3xl hover:bg-sky-600"
                                     onClick={() => {
                                         let data = stageRef.current.toDataURL({ pixelRatio: 1 });
                                         setTimeout(() => router.post("/select-option", { image: data }), 1000);

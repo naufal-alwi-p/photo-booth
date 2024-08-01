@@ -70,7 +70,7 @@ function GetOutput({ qr_code, print }) {
                     initial={{ opacity: 0, scale: 0.1 }}
                     animate={{ opacity: 1, scale: 1, transition: { repeat: 0, delay: 0.3, duration: 1 } }}
                     exit={{ opacity: 0, scale: 0.1, transition: { repeat: 0, duration: 1 } }}
-                    className="px-5 py-2 bg-green-500 hover:bg-green-600 block text-white font-bold rounded-lg text-2xl absolute bottom-5"
+                    className="px-7 py-2 bg-green-500 hover:bg-green-600 block text-white font-bold rounded-lg text-7xl absolute bottom-5"
                     onClick={() => router.get('thank-you')}
                 >
                     Done
